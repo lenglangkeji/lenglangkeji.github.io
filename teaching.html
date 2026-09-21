@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>热狗01 ROS2智能车教具 · 开源智能车底盘 · 冷狼电子工作室</title>
+<meta name="description" content="热狗01是冷狼电子工作室推出的开源ROS2智能车教具：STM32主控 + 树莓派上位机，搭载激光雷达、IMU、编码器里程计，支持ROS2 Humble，配套SLAM建图与Navigation2导航教程。">
+<meta name="keywords" content="ROS2智能车,开源智能车,智能车教具,热狗01,SLAM建图,Navigation2,STM32,树莓派,机器人教学">
+<meta property="og:type" content="website">
+<meta property="og:title" content="热狗01 ROS2智能车教具 · 冷狼电子工作室">
+<meta property="og:description" content="开源ROS2智能车训练底盘，从入门到实战的完整教学配套。">
+<meta property="og:image" content="assets/img/car/car-1.jpg">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-wrap">
+    <a href="index.html" class="nav-brand"><img src="assets/img/logo.png" alt="冷狼电子工作室">冷狼电子工作室</a>
+    <button class="nav-toggle" type="button" aria-label="展开菜单" aria-expanded="false"><span></span></button>
+    <ul class="nav-links">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="custom.html">承接外包</a></li>
+      <li><a href="teaching.html" class="active">ROS2教具</a></li>
+      <li><a href="downloads.html">软件下载</a></li>
+      <li><a href="shop.html">购买模块</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" style="padding:52px 20px 44px;">
+  <h1 style="font-size:1.8rem;letter-spacing:2px;">热狗01 ROS2 智能车教具</h1>
+  <p class="sub">开源智能车训练底盘 · 从入门到实战</p>
+</header>
+
+<div class="main">
+
+  <div class="panel reveal">
+    <h2>关于热狗01开源智能车</h2>
+    <p>热狗01是冷狼电子工作室推出的一款<span class="highlight">开源智能车训练底盘</span>，基于 ROS2 开发，适合学习机器人导航、SLAM 建图、传感器驱动等核心技术。STM32 主控 + 树莓派上位机，搭载激光雷达、IMU、编码器里程计，支持 ROS2 Humble。</p>
+
+    <div class="car-imgs">
+      <figure><img src="assets/img/car/car-1.jpg" alt="热狗01产品外观"><figcaption>产品外观</figcaption></figure>
+      <figure><img src="assets/img/car/car-2.jpg" alt="热狗01内部结构"><figcaption>内部结构</figcaption></figure>
+      <figure><img src="assets/img/car/car-3.jpg" alt="热狗01应用场景"><figcaption>应用场景</figcaption></figure>
+    </div>
+
+    <h3>核心规格</h3>
+    <ul class="specs">
+      <li>主控：STM32 运动控制 + 树莓派上位机（双核架构）</li>
+      <li>系统：Ubuntu 22.04 + ROS2 Humble</li>
+      <li>传感器：激光雷达 / IMU / 编码器里程计</li>
+      <li>功能：底盘运动控制、SLAM 建图、Navigation2 自主导航</li>
+      <li>形态：开源底盘，可二次开发与教学扩展</li>
+    </ul>
+
+    <div class="video-box">
+      <video src="assets/video/demo.mp4" poster="assets/img/car/car-1.jpg" controls preload="none"></video>
+    </div>
+    <p class="caption">▲ 实车演示视频（将演示视频放到 assets/video/demo.mp4 即可播放）</p>
+
+    <div style="display:flex;gap:12px;margin-top:18px;flex-wrap:wrap;">
+      <a class="btn" href="https://wwbxu.lanzouv.com/i2khA3flupej" target="_blank" rel="noopener">📋 BOM 表下载（提取码 hm2w）</a>
+      <a class="btn btn-dark" href="#ros2-tutorial">🔧 查看搭建与调试教程</a>
+    </div>
+  </div>
+
+  <div class="panel reveal" id="ros2-tutorial">
+    <h2>ROS2 基础指令教程</h2>
+    <p class="caption" style="margin-bottom:14px;">由<span class="highlight">冷狼电子工作室</span>编写 · Ubuntu 22.04 + ROS2 Humble</p>
+
+    <h3>1. 开发环境配置</h3>
+    <div class="code-block">sudo apt update
+sudo apt install ros-humble-desktop
+sudo apt install ros-humble-gazebo-ros-pkgs
+sudo apt install ros-humble-navigation2
+sudo apt install ros-humble-slam-toolbox</div>
+
+    <h3>2. 创建工作空间</h3>
+    <div class="code-block">mkdir -p ~/tute01_ws/src
+cd ~/tute01_ws
+colcon build
+source install/setup.bash</div>
+
+    <h3>3. 底盘基础控制</h3>
+    <div class="code-block"># 前进 0.5m/s
+ros2 topic pub /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.5, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}" -1
+
+# 原地左转
+ros2 topic pub /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.5}}" -1</div>
+
+    <h3>4. 传感器数据读取</h3>
+    <div class="code-block">ros2 topic echo /scan    # 激光雷达
+ros2 topic echo /imu     # IMU 姿态
+ros2 topic echo /odom    # 里程计</div>
+
+    <h3>5. SLAM 建图</h3>
+    <div class="code-block">ros2 launch slam_toolbox online_async_launch.py
+ros2 run nav2_map_server map_saver_cli -f ~/map</div>
+
+    <h3>6. Navigation2 自主导航</h3>
+    <div class="code-block">ros2 launch nav2_bringup bringup_launch.py map:=~/map.yaml</div>
+    <p>在 RViz2 里用 “2D Goal Pose” 设目标点，小车自己规划路径。</p>
+
+    <h3>7. Gazebo 仿真</h3>
+    <div class="code-block">ros2 launch tute01_gazebo tute01_world.launch.py</div>
+  </div>
+
+  <div class="panel full reveal">
+    <h2>CSDN 基础教程推荐</h2>
+    <div class="link-list">
+      <a class="link-item" href="https://blog.csdn.net" target="_blank" rel="noopener"><span class="lt">ROS2 Humble 安装教程（Ubuntu 22.04）</span><span class="ld">手把手图解装 ROS2，含常见报错解决</span></a>
+      <a class="link-item" href="https://blog.csdn.net" target="_blank" rel="noopener"><span class="lt">ROS2 话题通信入门（Topic / Publisher / Subscriber）</span><span class="ld">Python + C++ 双版本代码演示</span></a>
+      <a class="link-item" href="https://blog.csdn.net" target="_blank" rel="noopener"><span class="lt">ROS2 Service 与 Action 详解</span><span class="ld">服务与动作通信机制与实战用例</span></a>
+      <a class="link-item" href="https://blog.csdn.net" target="_blank" rel="noopener"><span class="lt">URDF 建模与 TF 坐标变换</span><span class="ld">从零搭建自己的机器人模型</span></a>
+      <a class="link-item" href="https://blog.csdn.net" target="_blank" rel="noopener"><span class="lt">STM32 与 ROS2 串口通信环境搭建</span><span class="ld">实现 STM32 与 ROS2 的串口通信</span></a>
+    </div>
+  </div>
+
+  <div class="panel full reveal">
+    <h2>教学源码下载</h2>
+    <div class="link-list">
+      <a class="link-item" href="https://wwd.lanzoub.com/inF8406oa1wj" target="_blank" rel="noopener"><span class="lt">📦 热狗01完整源码包</span><span class="ld">底盘驱动 + 导航配置 + 仿真文件</span></a>
+      <a class="link-item pending" href="#"><span class="lt">📦 教程课件 PPT 合集</span><span class="ld">链接待补充</span></a>
+      <a class="link-item pending" href="#"><span class="lt">📦 ROS2 基础教学代码示例</span><span class="ld">链接待补充</span></a>
+      <a class="link-item pending" href="#"><span class="lt">📦 Gazebo 仿真工程文件</span><span class="ld">链接待补充</span></a>
+    </div>
+  </div>
+
+</div>
+
+<section class="contact">
+  <h3>联系我们</h3>
+  <div class="items">
+    <span>📞 15122957906（王疆阔）</span>
+    <span>📧 <a href="mailto:1583025349@qq.com">1583025349@qq.com</a></span>
+    <span>📍 天津市大沽南路1310号</span>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>&copy; <span data-year>2026</span> 冷狼电子工作室 · 嵌入式项目开发 &amp; ROS2 智能车教具研发</p>
+  <p><a href="http://www.lenglang.xyz" target="_blank" rel="noopener">www.lenglang.xyz</a> · <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">津ICP备2022001514号-1</a></p>
+</footer>
+
+<button class="to-top" type="button" aria-label="返回顶部">↑</button>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
